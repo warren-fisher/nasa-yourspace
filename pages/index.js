@@ -4,7 +4,7 @@ import styles from '../styles/Home.module.css'
 
 import { useState, useCallback } from 'react';
 
-import { DatePicker } from '@shopify/polaris';
+import PopupDatePicker from '../components/PopupDatePicker.js';
 
 export default function Home() {
 
@@ -12,6 +12,7 @@ export default function Home() {
   // Get the date in New York
   const today = new Date(new Date().toLocaleDateString('en-us', {timeZone: 'America/New_York'}));
 
+  // Our start date stuff
   const [{month, year}, setDate] = useState({month: today.getMonth(), year: today.getFullYear()});
   const [selectedDates, setSelectedDates] = useState({
     start: today,
@@ -23,8 +24,20 @@ export default function Home() {
     [],
   );
 
+  // Our end date stuff
+  const [{monthEnd, yearEnd}, setDateEnd] = useState({monthEnd: today.getMonth(), yearEnd: today.getFullYear()});
+  const [selectedDatesEnd, setSelectedDatesEnd] = useState({
+    start: today,
+    end: today,
+  });
+
+  const handleMonthChangeEnd = useCallback(
+    (month, year) => setDateEnd({month, year}),
+    [],
+  );
+
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>YourSpace</title>
         <meta name="description" content="YourSpace - a space for everyone to see space" />
@@ -47,16 +60,28 @@ export default function Home() {
           Mars Rover Photos APIs provided for free on the internet.
         </p>
 
-        <DatePicker
-          month={month}
-          year={year}
-          onChange={setSelectedDates}
-          onMonthChange={handleMonthChange}
-          selected={selectedDates}
-          disableDatesAfter={today}
-        />
+        {/* It will add the selected date to buttonText */}
+        <section id={styles.datepickers}>
+          <PopupDatePicker
+            buttonText="Change start date from "
+            month={month}
+            year={year}
+            handleDateChange={setSelectedDates}
+            handleMonthChange={handleMonthChange}
+            selectedDates={selectedDates}
+            disableDatesAfter={today}/>
 
-        <App date={selectedDates.start}></App> 
+          <PopupDatePicker
+            buttonText="Change end date from "
+            month={monthEnd}
+            year={yearEnd}
+            handleDateChange={setSelectedDatesEnd}
+            handleMonthChange={handleMonthChangeEnd}
+            selectedDates={selectedDatesEnd}
+            disableDatesAfter={today}/>
+        </section>
+
+        <App dateStart={selectedDates.start} dateEnd={selectedDatesEnd.start}></App> 
       </main>
 
       <footer className={styles.footer}>
@@ -65,7 +90,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by api.nasa.gov
+          Powered by, but not afiliated with api.nasa.gov
         </a>
       </footer>
     </div>

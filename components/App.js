@@ -7,39 +7,36 @@ import * as styles from '../styles/App.module.css';
 
 /**
  * 
- * @param {Date} props.date the date selected
+ * @param {Date} dateStart the date selected to start from
+ * @param {Date} dateEnd the date selected to end at
  * @returns 
  */
-function App(props) 
+function App({dateStart, dateEnd}) 
 {
-    let year = new Intl.DateTimeFormat('en', { year: 'numeric'}).format(props.date);
-    let month = new Intl.DateTimeFormat('en', { month: '2-digit'}).format(props.date);
-    let day = new Intl.DateTimeFormat('en', { day: '2-digit'}).format(props.date);
+    const dateToNASAFormat = (date) => 
+    {
+        let year = new Intl.DateTimeFormat('en', { year: 'numeric'}).format(date);
+        let month = new Intl.DateTimeFormat('en', { month: '2-digit'}).format(date);
+        let day = new Intl.DateTimeFormat('en', { day: '2-digit'}).format(date);
 
-    // Convert to YYYY-MM-DD for the NASA APOD API.
-    let todaysDateString = `${year}-${month}-${day}`;
+        // Convert to YYYY-MM-DD for the NASA APOD API.
+        return `${year}-${month}-${day}`;
+    }
+
+    const startDate = dateToNASAFormat(dateStart);
+    const endDate = dateToNASAFormat(dateEnd);
 
     const key = 'ObXI2f3pCMbG8VkIXi13SVAXRnSZJdgYL0QVerkM';
 
-    const [date, setDate] = useState();
-    const [explanation, setExplanation] = useState();
-    const [title, setTitle] = useState();
-    const [url, setUrl] = useState();
-    const [media_type, setMediaType] = useState();
-
-    const [liked, setLike] = useState(false);
+    const [data, setData] = useState({});
 
     // only run on initial load
     useEffect(() => {
         let resp = (async () => {
             try {
-                let r = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${key}&date=${todaysDateString}`, {method: "GET"});
+                let r = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${key}&start_date=${startDate}&end_date=${endDate}`, {method: "GET"});
                 let data = await r.json();
-                setDate(data.date);
-                setExplanation(data.explanation);
-                setTitle(data.title);
-                setUrl(data.url);
-                setMediaType(data.media_type);
+                setData(data);
             }
             catch (error) 
             {
@@ -47,17 +44,29 @@ function App(props)
             }
         })();
 
-    }, [todaysDateString]);
+    }, [startDate, endDate]);
 
-    if (!date) 
+    if (data === {}) 
     {
         return null;
     }
 
     return (
-        <div className={styles.card}>
-            <ImageCard date={date} url={url} explanation={explanation} title={title} media_type={media_type}></ImageCard>
-        </div>
+        <>
+        {Object.keys(data).map((keyName, i) => 
+        {
+            console.log(data[keyName]);
+            const date = data[keyName]["date"];
+            const explanation = data[keyName]["explanation"];
+            const title = data[keyName]["title"];
+            const media_type = data[keyName]["media_type"];
+            const url = data[keyName]["url"];
+
+            return (<div className={styles.card}>
+                <ImageCard date={date} url={url} explanation={explanation} title={title} media_type={media_type}></ImageCard>
+            </div>);
+        })}
+        </>
     );
 }
 

@@ -9,13 +9,11 @@ YourSpace is made in NextJS (a React framework) with the help from Shopify's pol
 
 ## TODO:
 - darkmode 
-- mobile maybe can use non-hd images 
 - calendar searching between dates 
 - likes (save to localStorage) 
 - pages/with all prerendered pages per image(or maybe max 1000 or something)
 - SEO stuff (meta tags, title, proper icon for tab)
 - fonts maybe
-- can optionally view description in a dropdown or something like that maybe??? (possibly not)
 - like button has a animation
 - being able to view many images at once even
     - either between dates 
@@ -23,10 +21,11 @@ YourSpace is made in NextJS (a React framework) with the help from Shopify's pol
     - #### when viewing so many images, dont wait to load all before you can view the first ones
 - ## Bug report for Shopify Polaris DatePicker not SSR
 - like button has a heart that goes broken -> red or black -> red
-- ## support videos like on Sept 05 2021
 - support picking start and end date
-- perhaps use non-hd images always
 - perhaps cache all images on server (nah?)
+- cannot use date before 2000 (or whatever first APOD day is)
+- dismiss button for images (should it save across reloads)?
+- better background maybe?
 
 # Citations
 - Favicon.ico, pngs, apple-touch-icon and safari-pinned-tab generated from this free clipart https://openclipart.org/detail/176334/Space%20Helmet

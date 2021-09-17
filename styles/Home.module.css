@@ -113,6 +113,12 @@
   margin-left: 0.5rem;
 }
 
+#datepickers 
+{
+  display: flex;
+  direction: row;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;
