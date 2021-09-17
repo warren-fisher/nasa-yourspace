@@ -28,7 +28,7 @@ function MediaCardNASA({date, title, url, explanation, media_type})
 
     return (
         <MediaCard
-            title={title}
+            title={`${date} - ${title}`}
             primaryAction={{
                 content: liked == true ? "Liked!" : "Like",
                 onAction: () => {setLike(!liked)},

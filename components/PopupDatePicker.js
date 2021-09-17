@@ -41,7 +41,16 @@ function PopupDatePicker({buttonText, month, year, handleDateChange, handleMonth
             {text}
         </Button>
       );
-  
+
+    const updateDate = useCallback(
+      (state) => 
+      {
+        handleDateChange(state);
+        togglePopoverActive();
+      },
+      []
+    );
+
     return (
       <div className={styles.datepicker}>
         <Popover
@@ -53,7 +62,7 @@ function PopupDatePicker({buttonText, month, year, handleDateChange, handleMonth
             <DatePicker
                 month={month}
                 year={year}
-                onChange={handleDateChange}
+                onChange={updateDate}
                 onMonthChange={handleMonthChange}
                 selected={selectedDates}
                 disableDatesAfter={disableDatesAfter}

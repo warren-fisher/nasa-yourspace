@@ -4,7 +4,6 @@ import ImageCard from '../components/ImageCard.js';
 
 import * as styles from '../styles/App.module.css';
 
-
 /**
  * 
  * @param {Date} dateStart the date selected to start from
