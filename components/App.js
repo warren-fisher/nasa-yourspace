@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 
 import ImageCard from '../components/ImageCard.js';
 
+import * as styles from '../styles/App.module.css';
+
+
 /**
  * 
  * @param {Date} props.date the date selected
@@ -22,6 +25,7 @@ function App(props)
     const [explanation, setExplanation] = useState();
     const [title, setTitle] = useState();
     const [url, setUrl] = useState();
+    const [media_type, setMediaType] = useState();
 
     const [liked, setLike] = useState(false);
 
@@ -34,7 +38,8 @@ function App(props)
                 setDate(data.date);
                 setExplanation(data.explanation);
                 setTitle(data.title);
-                setUrl(data.hdurl);
+                setUrl(data.url);
+                setMediaType(data.media_type);
             }
             catch (error) 
             {
@@ -50,7 +55,9 @@ function App(props)
     }
 
     return (
-        <ImageCard date={date} url={url} explanation={explanation} title={title}></ImageCard>
+        <div className={styles.card}>
+            <ImageCard date={date} url={url} explanation={explanation} title={title} media_type={media_type}></ImageCard>
+        </div>
     );
 }
 
