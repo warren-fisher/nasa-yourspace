@@ -1,8 +1,6 @@
-import * as styles from '../styles/ImageCard.module.css';
+import { MediaCard, Button} from '@shopify/polaris';
 
-import { MediaCard, Collapsible, Button} from '@shopify/polaris';
-
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
 
 /**
  * Display an image card
@@ -18,6 +16,9 @@ import { useCallback, useState } from 'react';
 function MediaCardNASA({date, title, url, explanation, media_type}) 
 {
     const thisItem = JSON.parse(localStorage.getItem(url));
+
+    // Our ref for lazy loading
+    const mediaRef = useRef(null);
 
     // Get the state, or default value if none for this URL
     const getSavedState = (prop, defaultVal) => 
@@ -40,20 +41,41 @@ function MediaCardNASA({date, title, url, explanation, media_type})
         {
             setLike(!liked);
             localStorage.setItem(url, JSON.stringify({"liked": !liked, "open": open, "dismissed": dismissed}));
-        }, [liked, open, dismissed]);
+        }, [liked, open, dismissed, url]);
 
     const changeOpen = useCallback(()=> 
         {
             setOpen(!open);
             localStorage.setItem(url, JSON.stringify({"liked": liked, "open": !open, "dismissed": dismissed}));
-        }, [liked, open, dismissed]);
+        }, [liked, open, dismissed, url]);
 
     const changeDismiss = useCallback(()=> 
         {
             setDismissed(!dismissed);
             localStorage.setItem(url, JSON.stringify({"liked": liked, "open": open, "dismissed": !dismissed}));
-        }, [liked, open, dismissed]);
+        }, [liked, open, dismissed, url]);
 
+    // Use Effect for lazy loading images, changing on dismissal so that newly
+    // dismissed or undismissed items can be lazy-loaded/ignored.
+    useEffect(() => {
+        if (dismissed) 
+        {
+            return;
+        }
+
+        let observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const { isIntersecting } = entry;     
+                if (isIntersecting && mediaRef != undefined) {
+                  mediaRef.current.src = url;
+                  observer = observer.disconnect();
+                }
+              });
+        }, []);
+        
+        observer.observe(mediaRef.current);
+    }, [dismissed, url]);
+    
     if (dismissed)
     {
         return <Button fullWidth destructive={true} onClick={changeDismiss}>Unhide {date} - {title}</Button>;
@@ -76,7 +98,7 @@ function MediaCardNASA({date, title, url, explanation, media_type})
             >
 
                 {media_type === "image" ? 
-                    <img className={styles.displayImg}
+                    <img ref={mediaRef}
                         alt={title}
                         width="100%"
                         height="100%"
@@ -84,9 +106,8 @@ function MediaCardNASA({date, title, url, explanation, media_type})
                         objectFit: 'cover',
                         objectPosition: 'center',
                         }}
-                        src={url}
                     /> :
-                    <iframe title={title} src={url} height="100%" width="100%" allowFullScreen></iframe>
+                    <iframe ref={mediaRef} title={title} height="100%" width="100%" allowFullScreen></iframe>
                 }
         </MediaCard>
     );

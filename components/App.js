@@ -1,9 +1,7 @@
-import { Layout, Frame } from '@shopify/polaris';
+import { Layout, Banner } from '@shopify/polaris';
 import { useState, useEffect } from 'react';
 
 import ImageCard from '../components/ImageCard.js';
-
-import * as styles from '../styles/App.module.css';
 
 /**
  * 
@@ -40,7 +38,8 @@ function App({dateStart, dateEnd})
             }
             catch (error) 
             {
-                console.error("UH OH! Tried to fetch with date=", todaysDateString);
+                setData("error");
+                console.error("UH OH! Cannot fetch data");
             }
         })();
 
@@ -49,6 +48,18 @@ function App({dateStart, dateEnd})
     if (data === {}) 
     {
         return null;
+    }
+
+    if (data === "error")
+    {
+        return (
+            <Banner title="Problem with api.nasa.gov" status="critical">
+                <p>
+                    There is a problem with the NASA API this website is based on. Perhaps there have been too many 
+                    requests from your IP, or the API is overloaded.
+                </p>
+            </Banner>
+        )
     }
 
     return (
@@ -62,7 +73,7 @@ function App({dateStart, dateEnd})
             const url = data[keyName]["url"];
 
             return (
-                <Layout.Section key={url} className={styles.card}>
+                <Layout.Section key={url}>
                     <ImageCard key={url} date={date} url={url} explanation={explanation} title={title} media_type={media_type}></ImageCard>
                 </Layout.Section>);
         })}

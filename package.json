@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "export": "next export",
+    "lint": "next lint",
+    "deploy:prod": "cd ./out && rsync -a ./ root@ubuntu-vps:~/sites/space.warrenfisher.net"
   },
   "dependencies": {
     "@shopify/polaris": "^6.6.0",

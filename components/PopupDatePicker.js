@@ -49,7 +49,7 @@ function PopupDatePicker({buttonText, month, year, handleDateChange, handleMonth
         handleDateChange(state);
         togglePopoverActive();
       },
-      []
+      [handleDateChange, togglePopoverActive]
     );
 
     return (
