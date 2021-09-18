@@ -59,8 +59,7 @@ export default function Home() {
           Welcome to YourSpace
         </h1>
         <p>
-          An earth citizens website to access pictures from NASA&#39;s Astronomy Picture of the Day and
-          Mars Rover Photos APIs provided for free on the internet.
+          An earth citizens website to access pictures from NASA&#39;s Astronomy Picture of the Day provided for free on the internet.
         </p>
 
         {/* It will add the selected date to buttonText */}

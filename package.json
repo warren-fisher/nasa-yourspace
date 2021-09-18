@@ -8,7 +8,7 @@
     "start": "next start",
     "export": "next export",
     "lint": "next lint",
-    "deploy:prod": "cd ./out && rsync -a ./ root@ubuntu-vps:~/sites/space.warrenfisher.net"
+    "deploy:prod": "npm run-script export && cd ./out && rsync -a ./ root@ubuntu-vps:~/sites/space.warrenfisher.net"
   },
   "dependencies": {
     "@shopify/polaris": "^6.6.0",
