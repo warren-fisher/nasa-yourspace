@@ -1,3 +1,4 @@
+import { Layout } from '@shopify/polaris';
 import { useState, useEffect } from 'react';
 
 import ImageCard from '../components/ImageCard.js';
@@ -51,21 +52,21 @@ function App({dateStart, dateEnd})
     }
 
     return (
-        <>
+        <Layout title="Images of the day">
         {Object.keys(data).map((keyName, i) => 
         {
-            console.log(data[keyName]);
             const date = data[keyName]["date"];
             const explanation = data[keyName]["explanation"];
             const title = data[keyName]["title"];
             const media_type = data[keyName]["media_type"];
             const url = data[keyName]["url"];
 
-            return (<div className={styles.card}>
-                <ImageCard date={date} url={url} explanation={explanation} title={title} media_type={media_type}></ImageCard>
-            </div>);
+            return (
+                <Layout.Section key={url} className={styles.card}>
+                    <ImageCard date={date} url={url} explanation={explanation} title={title} media_type={media_type}></ImageCard>
+                </Layout.Section>);
         })}
-        </>
+        </Layout>
     );
 }
 

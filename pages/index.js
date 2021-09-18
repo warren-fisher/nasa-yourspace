@@ -8,9 +8,12 @@ import PopupDatePicker from '../components/PopupDatePicker.js';
 
 export default function Home() {
 
-  // TODO: find proper timezone for when APOD changes
-  // Get the date in New York
+  // Get the date in New York timezone.
+  // I found that APOD updates ~couple minutes after EST time change
   const today = new Date(new Date().toLocaleDateString('en-us', {timeZone: 'America/New_York'}));
+
+  // This is the first available APOD image
+  const firstDay = new Date(2015, 1, 1);
 
   // Our start date stuff
   const [{month, year}, setDate] = useState({month: today.getMonth(), year: today.getFullYear()});
@@ -37,7 +40,7 @@ export default function Home() {
   );
 
   return (
-    <div>
+    <>
       <Head>
         <title>YourSpace</title>
         <meta name="description" content="YourSpace - a space for everyone to see space" />
@@ -69,7 +72,9 @@ export default function Home() {
             handleDateChange={setSelectedDates}
             handleMonthChange={handleMonthChange}
             selectedDates={selectedDates}
-            disableDatesAfter={today}/>
+            disableDatesBefore={firstDay}
+            disableDatesAfter={today}
+            />
 
           <PopupDatePicker
             buttonText="Change end date from "
@@ -78,7 +83,9 @@ export default function Home() {
             handleDateChange={setSelectedDatesEnd}
             handleMonthChange={handleMonthChangeEnd}
             selectedDates={selectedDatesEnd}
-            disableDatesAfter={today}/>
+            disableDatesBefore={selectedDates.start}
+            disableDatesAfter={today}
+            />
         </section>
 
         <App dateStart={selectedDates.start} dateEnd={selectedDatesEnd.start}></App> 
@@ -93,6 +100,6 @@ export default function Home() {
           Powered by, but not afiliated with api.nasa.gov
         </a>
       </footer>
-    </div>
-  )
+    </>
+  );
 }

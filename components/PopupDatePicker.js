@@ -10,14 +10,15 @@ import {Button, Popover, DatePicker} from '@shopify/polaris';
  * A popup date picker to select a date
  * 
  * @param {str} buttonText the popover button display name
- * @param {Date} month the month looking at
+ * @param {} month the month looking at
  * @param {Date} year the year looking at
  * @param {Date} handleDateChange update the date selected
  * @param {Date} handleMonthChange update the month, year looking at
  * @param {Date} selectedDates the date selected
- * @param {Date} disableDatesAfter you cannot select dates after this
+ * @param {Date} disableDatesBefore the first day allowed
+ * @param {Date} disableDatesAfter the last day allowed
  */
-function PopupDatePicker({buttonText, month, year, handleDateChange, handleMonthChange, selectedDates, disableDatesAfter})
+function PopupDatePicker({buttonText, month, year, handleDateChange, handleMonthChange, selectedDates, disableDatesBefore, disableDatesAfter})
 {  
     const [popoverActive, setPopoverActive] = useState(false);
 
@@ -65,6 +66,7 @@ function PopupDatePicker({buttonText, month, year, handleDateChange, handleMonth
                 onChange={updateDate}
                 onMonthChange={handleMonthChange}
                 selected={selectedDates}
+                disableDatesBefore={disableDatesBefore}
                 disableDatesAfter={disableDatesAfter}
             />
         </Popover>
