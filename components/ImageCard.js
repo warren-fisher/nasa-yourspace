@@ -70,14 +70,8 @@ function MediaCardNASA({date, title, url, explanation, media_type})
                 onAction: changeOpen,
             }}
             size="small"
-            description={          
-            <Collapsible
-                open={open}
-                id="collapse-description"
-                transition={{duration: '450ms', timingFunction: 'ease-in-out'}}
-                expandOnPrint>
-                {explanation}
-            </Collapsible>}
+            description={  
+            open ? explanation : explanation.slice(0, 100) + "..."}        
             popoverActions={[{content: 'Dismiss', onAction: changeDismiss}]}
             >
 
