@@ -8,14 +8,16 @@ Users can find photos and videos between certain dates and like and unlike them,
 
 YourSpace supports lazy loading images so that they do not get loaded until they enter your screen.
 
-YourSpace is available at [space.warrenfisher.net](space.warrenfisher.net).
+YourSpace is available at [space.warrenfisher.net](https://space.warrenfisher.net).
 
 ## Features
+- darkmode
 - like, and unlike images
 - hide and unhide images
 - hide and unhide image descriptions
+- the previous 4 settings/states are saved to localStorage so that you can keep state across page refresh
 - lazy load images so they do not get loaded until appearing on the screen
-- load images between START and END days
+- load images between a start and end day
 
 ## Development
 YourSpace is built with JavaScript, NextJS (a React framework) and Shopify-Polaris reusable components.
